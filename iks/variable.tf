@@ -1,6 +1,12 @@
-variable "ibm_apikey" {}
-variable "sl_username" {}
-variable "sl_apikey" {}
+variable "ibm_apikey" {
+    default = "lM4cvdeYUzB_mgD-qJbTj1F0MfJtzzZwjOXzpOgKZEj0"
+}
+variable "sl_username" {
+    default = "IBM1365537"
+}
+variable "sl_apikey" {
+    default = "457a135ddc4d34ac9678bda5321c88d5755b833c8a3ae72058f1bbea8e2c813a"
+}
 
 variable "region" {
     default = "jp-tok"
@@ -25,7 +31,7 @@ variable "public_vlan_id" {
 }
 
 variable "cluster_name" {
-    default = "iks_zcp_local"
+    default = "iks_zcp_test"
 }
 
 variable "kube_version" {
