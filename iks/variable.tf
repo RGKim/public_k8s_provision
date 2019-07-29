@@ -1,11 +1,8 @@
 variable "ibm_apikey" {
-    default = "lM4cvdeYUzB_mgD-qJbTj1F0MfJtzzZwjOXzpOgKZEj0"
 }
 variable "sl_username" {
-    default = "IBM1365537"
 }
 variable "sl_apikey" {
-    default = "457a135ddc4d34ac9678bda5321c88d5755b833c8a3ae72058f1bbea8e2c813a"
 }
 
 variable "region" {
@@ -29,6 +26,14 @@ variable "private_vlan_id" {
 variable "public_vlan_id" {
     default = "2119045"
 }
+
+# variable "private_vlan" {
+#   type = "map"
+# }
+
+# variable "public_vlan" {
+#   type = "map"
+# }
 
 variable "cluster_name" {
     default = "iks_zcp_test"
