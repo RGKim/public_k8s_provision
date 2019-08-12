@@ -1,7 +1,5 @@
 FROM alpine:3.7
 
-COPY iks.zip /root
-
 ENV GOPATH /go
 
 ENV GOLANG_VERSION 1.9.4
@@ -9,9 +7,17 @@ ENV GOLANG_SRC_URL https://golang.org/dl/go$GOLANG_VERSION.src.tar.gz
 ENV GOLANG_SRC_SHA256 0573a8df33168977185aa44173305e5a0450f55213600e94541604b75d46dc06
 
 ENV TERRAFORM_VERSION 0.11.8
-ENV TERRAFORM_IBMCLOUD_VERSION 0.16.1
+ENV TERRAFORM_IBMCLOUD_VERSION 0.17.1
 
 ENV PATH $GOPATH/bin:/usr/local/go/bin:$PATH
+
+RUN apk add --no-cache \
+    curl \
+    git \
+    docker \
+    bash \
+    jq \
+    openssl
 
 RUN set -ex \
 	&& apk update \
@@ -61,9 +67,17 @@ RUN rm -rf linux_amd64.zip
 
 WORKDIR "/root"
 
+# Install IBM Cloud CLI & Container Service Plugin
+RUN curl -fsSL https://clis.cloud.ibm.com/install/linux | sh \
+    && ibmcloud plugin install container-service \
+    && ibmcloud plugin install container-registry
+
+RUN apk --no-cache add gettext ca-certificates openssl \
+	&& wget https://storage.googleapis.com/kubernetes-release/release/v1.13.6/bin/linux/amd64/kubectl -O /usr/local/bin/kubectl \
+    && chmod a+x /usr/local/bin/kubectl
+
+COPY iks.zip /root/
+
 RUN unzip iks.zip
 
-WORKDIR "/root/iks"
-
-ENTRYPOINT []
-CMD ["terraform", "plan"]
+RUN cat iks/main.tf
